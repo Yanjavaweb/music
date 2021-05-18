@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Yan.mapper.RankMapper">
+
+
+    <insert id="insert">
+        insert into rank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="songListId != null">
+                song_list_id,
+            </if>
+            <if test="consumerId != null">
+                consumer_id,
+            </if>
+            <if test="scope != null">
+                scope
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="songListId != null">
+                #{songListId},
+            </if>
+            <if test="consumerId != null">
+                #{consumerId},
+            </if>
+            <if test="scope != null">
+                #{scope}
+            </if>
+        </trim>
+    </insert>
+    <select id="ScoreSum" resultType="java.lang.Integer">
+        select COALESCE(sum(scope),0) as scope
+        from rank
+        where song_list_id=#{songListId}
+    </select>
+    <select id="PeopleNum" resultType="java.lang.Integer">
+        select COALESCE(count(id),0) as num
+        from rank
+        where song_list_id=#{songListId}
+    </select>
+</mapper>
